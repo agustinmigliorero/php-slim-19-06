@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear juego</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        width: 60%;
+        margin: auto;
+        background-color: rgb(160, 190, 255);
+        border-radius: 6px;
+        padding: 10px;
+      }
+
+      .input-div {
+        margin: auto;
+        width: 40%;
+        margin-top: 3%;
+      }
+
+      select, input {
+        width: 80%;
+      }
+
+      button {
+        width: 80%;
+        margin: auto;
+        margin-top: 3%;
+        display: block;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>ESTO VIENE DE SLIM {{mititulo}}</h1>
+
+
+    <div class="contenedor">
+      {% if game is defined %}
+      <h1>Editar tu juego 😎</h1>
+      {% else %}
+      <h1>Crea tu juego 😎</h1>
+      {% endif %}
+
+      <form 
+      {% if game is defined %}
+      action="/editar/juego/{{ game[0].id }}"
+      {% else %}
+      action="/game/create"
+      {% endif %}
+      method="POST">
+        <div class="input-div">
+          <label for="title">Titulo</label>
+          <br />
+          <input
+            type="text"
+            name="title"
+            {%
+            if
+            game
+            is
+            defined
+            %}
+            value="{{ game[0].title }}"
+            {%
+            endif
+            %}
+            placeholder="Titulo"
+          />
+        </div>
+        <div class="input-div">
+          <label for="release_year">Año de lanzamiento</label>
+          <br />
+          <input
+            type="text"
+            name="release_year"
+            {%
+            if
+            game
+            is
+            defined
+            %}
+            value="{{ game[0].release_year }}"
+            {%
+            endif
+            %}
+            placeholder="Año de lanzamiento"
+          />
+        </div>
+        <div class="input-div">
+          <label for="developer">Desarrollador</label>
+          <br />
+          <input
+            type="text"
+            {%
+            if
+            game
+            is
+            defined
+            %}
+            value="{{ game[0].developer }}"
+            {%
+            endif
+            %}
+            name="developer"
+            placeholder="Desarrollador"
+          />
+        </div>
+        <div class="input-div">
+          <label for="type_id">Genero</label>
+          <br />
+          <select name="type_id">
+            {% for type in types %}
+            <option value="{{ type.id }}" 
+            {% if game[0].type_id == type.id %}
+              selected
+            {% endif %}
+            >{{ type.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="">
+          <button>Enviar</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

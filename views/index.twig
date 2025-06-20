@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tablas</title>
+
+    <style>
+      table {
+        border: 2px solid black;
+        border-collapse: collapse;
+        width: 80%;
+        margin: auto;
+        font-family: sans-serif;
+      }
+
+      td,
+      th,
+      tr {
+        border: 2px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 18px;
+      }
+
+      .contenedor {
+        margin: auto;
+        text-align: center;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>Lista de juegos</h1>
+      <h3><a href="/crear/juego">Crea tu juego!</a></h3>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Titulo</th>
+          <th>Fecha de Salida</th>
+          <th>Desarrollador</th>
+          <th>Genero</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for game in games %}
+        <tr>
+          <td>{{ game["title"] }}</td>
+          <td>{{ game["release_year"] }}</td>
+          <td>{{ game["developer"] }}</td>
+          <td>{{ game["type_id"] }}</td>
+          <td>
+            <form action="/borrar/juego/{{ game['id'] }}" method="POST">
+              <input type="submit" value="Borrar 😡" />
+            </form>
+            <a href="/editar/juego/{{ game.id }}"><button>Editar 📜</button></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
